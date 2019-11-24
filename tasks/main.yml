@@ -1,0 +1,38 @@
+---
+- name: create docker network
+  become: true
+  become_method: sudo
+  docker_network:
+    name: wow_network
+    state: present
+
+- name: include role docker_exam
+  include_role:
+   name: docker_exam
+
+- name: log in to dockerhub
+  become: true
+  become_method: sudo
+  docker_login:
+   username: kokarovtsevv
+   password: "{{ dh_pass}}"
+   email: kokarovcew96@gmail.com
+
+- name: pull image from dockerhub
+  become: true
+  become_method: sudo
+  docker_image:
+   name: kokarovtsevv/exam_image:webapp
+   pull: yes
+
+- name: run container webapp
+  become: true
+  become_method: sudo
+  docker_container:
+   name: "{{ container }}"
+   hostname: "{{ container }}"
+   image: kokarovtsevv/exam_image:webapp
+   state: started
+   ports: "{{ container_port }}:5000"
+   networks: 
+    - name: wow_network
