@@ -1,11 +1,4 @@
 ---
-#- name: create docker network
-#  become: true
-#  become_method: sudo
-#  docker_network:
-#    name: wow_network
-#    state: present
-
 - name: include role docker_exam
   include_role:
    name: docker_exam
